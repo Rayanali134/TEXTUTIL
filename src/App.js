@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import Navbar from './Components/Navbar';
 import TextForm from './Components/TextForm';
-// import About from './Components/About';
+import About from './Components/About';
 import Alert from './Components/Alert';
 import {
   BrowserRouter as Router,
@@ -25,19 +25,29 @@ function App() {
 
   const [mode, setMode] = useState("light");
 
-  const toggleMode = () => {
+  const removeBodyClasses = () => {
+  document.body.classList.remove("bg-light","bg-dark","info", "bg-secondary", "bg-warning", "bg-danger",  );
+};
+
+const toggleMode = (cls = null) => {
+  removeBodyClasses();
+  
+  if (cls) {
+    // color theme button pressed
+    document.body.classList.add("bg-" + cls);
+  } else {
+    // switch pressed
     if (mode === "light") {
       setMode("dark");
       document.body.style.backgroundColor = "#042743";
       showAlert("success", "Dark mode enabled");
-      document.title = "Textutils - Dark Mode";
     } else {
       setMode("light");
       document.body.style.backgroundColor = "white";
       showAlert("success", "Light mode enabled");
-      document.title = "Textutils - Light Mode";
     }
-  };
+  }
+};
 
   return (
     <>
@@ -49,9 +59,9 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={<TextForm showalert={showAlert} heading="Enter the text and you analyze" mode={mode} />}
+              element={<TextForm showalert={showAlert} heading="Textutils word counter convert uppercase to lowercase and good faeture" mode={mode} />}
             />
-            {/* <Route path="/about" element={<About />} /> */}
+            <Route path="/about" element={<About mode={mode}/>} />
           </Routes>
         </div>
       </Router>
